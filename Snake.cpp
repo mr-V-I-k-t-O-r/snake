@@ -3,11 +3,59 @@
 #include <time.h>
 #include <random>
 
+Field::Field()
+{
+    this->x = 0;
+    this->y = 0;
+    this->field = nullptr;
+}
+
+Field::Field(const int&X, const int& Y)
+{
+    this->x = X;
+    this->y = Y;
+    this->field = new char*[Y];
+    for(int i = 0; i < Y; ++i)
+    {
+        this->field[i] = new char[X];
+        for(int j = 0; j < X; ++j)
+        this->field[i][j] = ' ';
+    }
+}
+
+Field::~Field()
+{
+    for(int i = 0; i < this->y; ++i)
+        delete[] this->field[i];
+    delete[] this->field;
+}
+
+void Field::print()
+{
+    for(int i = 0; i < this->y; ++i)
+    {
+        for(int j = 0; j < this->x; ++j)
+            std::cout << this->field[i][j];
+        std::cout << '\n';
+    }
+}
+
+void Field::place(const int& X, const int& Y, const char& sign)
+{
+    this->field[Y][X] = sign;
+}
+
+
 void Apple::chpos(const int& X, const int& Y)
 {
     srand(time(0));
     this->x = rand() % (X - 2) + 1;
     this->y = rand() % (Y - 2) + 1;
+}
+
+void Apple::print(Field& field)
+{
+    field.place(this->x, this->y, '0');
 }
 
 Element::Element(const int& X, const int& Y, Element* last)
@@ -57,6 +105,11 @@ void Element::mov(const char& dir)
         {
             ++y;
         }
+}
+
+void Element::print(Field& field)
+{
+    field.place(this->x, this->y, '@');
 }
 
 Element* Element::get_next()
@@ -110,3 +163,15 @@ void Snake::death()
 {
     this->alive = false;
 }
+
+void Snake::print(Field& field)
+{
+    Element* now = this->tail;
+    while(now != this->head)
+    {
+        now->print(field);
+        now->get_next();
+    }
+    now->print(field);
+}
+
