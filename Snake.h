@@ -10,6 +10,7 @@ class Element
         void mov(const char& dir);
         const int& get_x() ;
         const int& get_y();
+        Element* get_next();
 
     private:
         int x;
