@@ -1,6 +1,17 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 
+class Apple
+{
+    public:
+        void chpos(const int& X, const int&Y);
+
+    private:
+        int x;
+        int y;
+
+};
+
 class Element
 {
     public:

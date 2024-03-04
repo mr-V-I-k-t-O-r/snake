@@ -1,5 +1,14 @@
 #include "Snake.h"
 #include <iostream>
+#include <time.h>
+#include <random>
+
+void Apple::chpos(const int& X, const int& Y)
+{
+    srand(time(0));
+    this->x = rand() % (X - 2) + 1;
+    this->y = rand() % (Y - 2) + 1;
+}
 
 Element::Element(const int& X, const int& Y, Element* last)
 {
