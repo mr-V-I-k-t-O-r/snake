@@ -2,6 +2,7 @@
 #include <iostream>
 #include <time.h>
 #include <random>
+#include <curses.h>
 
 Field::Field()
 {
@@ -10,7 +11,7 @@ Field::Field()
     this->field = nullptr;
 }
 
-Field::Field(const int&X, const int& Y)
+Field::Field(const unsigned int&X, const unsigned int& Y)
 {
     this->x = X;
     this->y = Y;
@@ -18,35 +19,56 @@ Field::Field(const int&X, const int& Y)
     for(int i = 0; i < Y; ++i)
     {
         this->field[i] = new char[X];
-        for(int j = 0; j < X; ++j)
-        this->field[i][j] = ' ';
     }
 }
 
 Field::~Field()
 {
-    for(int i = 0; i < this->y; ++i)
+    for(unsigned int i = 0; i < this->y; ++i)
         delete[] this->field[i];
     delete[] this->field;
 }
 
 void Field::print()
 {
-    for(int i = 0; i < this->y; ++i)
+    for(unsigned int i = 0; i < this->y; ++i)
     {
-        for(int j = 0; j < this->x; ++j)
+        for(unsigned int j = 0; j < this->x; ++j)
             std::cout << this->field[i][j];
         std::cout << '\n';
     }
 }
 
-void Field::place(const int& X, const int& Y, const char& sign)
+void Field::place(const unsigned int& X, const unsigned int& Y, const char& sign)
 {
     this->field[Y][X] = sign;
 }
 
+void Field::update()
+{
+    for(int i = 0; i < this->y; ++i)
+    {
+        for(int j = 0; j < this->x; ++j)
+        {
+            if(i == 0 || j == 0 || i == this->y - 1 || j == this->x - 1)
+            {
+                this->field[i][j] = '#';
+            }
+            else
+            {
+                this->field[i][j] = ' ';
+            }
+        }
+    }
+}
 
-void Apple::chpos(const int& X, const int& Y)
+const char& Field::get_sign(const unsigned int& X, const unsigned int& Y)
+{
+    return this->field[Y][X];
+}
+
+
+void Apple::chpos(const unsigned int& X, const unsigned int& Y)
 {
     srand(time(0));
     this->x = rand() % (X - 2) + 1;
@@ -58,25 +80,25 @@ void Apple::print(Field& field)
     field.place(this->x, this->y, '0');
 }
 
-Element::Element(const int& X, const int& Y, Element* last)
+Element::Element(const unsigned int& X, const unsigned int& Y, Element* last)
 {
     this->x = X;
     this->y = Y;
     this->next = last;
 }
 
-Element::Element(const int& X, const int& Y)
+Element::Element(const unsigned int& X, const unsigned int& Y)
 {
     this->x = X;
     this->y = Y;
 }
 
-const int& Element::get_x()
+const unsigned int& Element::get_x()
 {
     return this->x;
 }
 
-const int& Element::get_y()
+const unsigned int& Element::get_y()
 {
     return this->y;
 }
@@ -118,11 +140,11 @@ Element* Element::get_next()
 }
 
 
-Snake::Snake(const int& X, const int& Y)
+Snake::Snake(const unsigned int& X, const unsigned int& Y)
 {
     this->head = new Element(X / 2, Y / 2);
     this->tail = head;
-    this->alive = true;
+    this->live = true;
 }
 
 Snake::~Snake()
@@ -157,11 +179,12 @@ void Snake::grow()
     Element* n = new Element(tail->get_x(), tail->get_y(), tail);
     tail = n;
     n = nullptr;
+    //mov;
 }
 
 void Snake::death()
 {
-    this->alive = false;
+    this->live = false;
 }
 
 void Snake::print(Field& field)
@@ -170,8 +193,77 @@ void Snake::print(Field& field)
     while(now != this->head)
     {
         now->print(field);
-        now->get_next();
+        now = now->get_next();
     }
     now->print(field);
 }
+
+bool Snake::alive()
+{
+    return this->live;
+}
+
+const int& Snake::get_x_head()
+{
+    return this->head->get_x();
+}
+
+const int& Snake::get_y_head()
+{
+    return this->head->get_y();
+}
+
+
+Game::Game(const unsigned int& X, const unsigned int& Y)
+{
+    this->field = new Field(X, Y);
+    this->snake = new Snake(X, Y);
+    this->apple = new Apple();
+    this->x = X;
+    this->y = Y;
+}
+
+Game::~Game()
+{
+    delete this->field;
+    this->field = nullptr;
+
+    delete this->snake;
+    this->snake = nullptr;
+
+    delete this->apple;
+    this->apple = nullptr;
+}
+
+void Game::start()
+{
+    this->apple->chpos(this->x, this->y);
+    while(this->snake->alive())
+    {
+        this->field->update();
+        this->apple->print(*this->field);
+
+        char head_position = this->field->get_sign(this->snake->get_x_head(), this->snake->get_y_head());
+        if(head_position == '0')
+        {
+            this->snake->grow();
+            this->apple->chpos(this->x, this->y);
+        }
+        else if(head_position == '#')
+        {
+            this->snake->death();
+        }
+
+        this->snake->print(*this->field);
+        this->field->print();
+        //system(); read dir
+        std::cin >> dir;
+        this->snake->mov(dir);
+        system("clear");
+    }
+    std::cout << "лох, пидор\n";
+}
+
+
+
 
