@@ -179,7 +179,6 @@ void Snake::grow()
     Element* n = new Element(tail->get_x(), tail->get_y(), tail);
     tail = n;
     n = nullptr;
-    //mov;
 }
 
 void Snake::death()
@@ -238,30 +237,31 @@ Game::~Game()
 void Game::start()
 {
     this->apple->chpos(this->x, this->y);
+    this->field->update();
     while(this->snake->alive())
     {
+        std::cin >> dir;
+        this->snake->mov(dir);
+        system("clear");
+
+        char head_position = this->field->get_sign(this->snake->get_x_head(), this->snake->get_y_head());
+
         this->field->update();
         this->apple->print(*this->field);
 
-        char head_position = this->field->get_sign(this->snake->get_x_head(), this->snake->get_y_head());
         if(head_position == '0')
         {
             this->snake->grow();
             this->apple->chpos(this->x, this->y);
         }
-        else if(head_position == '#')
+        else if(head_position != ' ')
         {
             this->snake->death();
         }
 
         this->snake->print(*this->field);
         this->field->print();
-        //system(); read dir
-        std::cin >> dir;
-        this->snake->mov(dir);
-        system("clear");
     }
-    std::cout << "лох, пидор\n";
 }
 
 
