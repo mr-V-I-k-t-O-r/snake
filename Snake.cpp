@@ -44,7 +44,7 @@ void Field::place(const unsigned int& X, const unsigned int& Y, const char& sign
     this->field[Y][X] = sign;
 }
 
-// render field
+// clear field
 void Field::update()
 {
     for(int i = 0; i < this->y; ++i)

@@ -41,7 +41,7 @@ class Element
         void mov();
         void mov(const char& dir);
         void print(Field& field);
-        const unsigned int& get_x() ;
+        const unsigned int& get_x();
         const unsigned int& get_y();
         Element* get_next();
 
