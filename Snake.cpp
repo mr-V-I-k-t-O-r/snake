@@ -2,7 +2,6 @@
 #include <iostream>
 #include <time.h>
 #include <random>
-#include <curses.h>
 
 Field::Field()
 {
@@ -39,11 +38,13 @@ void Field::print()
     }
 }
 
+// change field symbol
 void Field::place(const unsigned int& X, const unsigned int& Y, const char& sign)
 {
     this->field[Y][X] = sign;
 }
 
+// render field
 void Field::update()
 {
     for(int i = 0; i < this->y; ++i)
@@ -67,7 +68,7 @@ const char& Field::get_sign(const unsigned int& X, const unsigned int& Y)
     return this->field[Y][X];
 }
 
-
+// change position
 void Apple::chpos(const unsigned int& X, const unsigned int& Y)
 {
     srand(time(0));
@@ -79,6 +80,8 @@ void Apple::print(Field& field)
 {
     field.place(this->x, this->y, '0');
 }
+
+// Element of snake
 
 Element::Element(const unsigned int& X, const unsigned int& Y, Element* last)
 {
@@ -103,12 +106,14 @@ const unsigned int& Element::get_y()
     return this->y;
 }
 
+// snake move every own element from tail to head on the place of next element
 void Element::mov()
 {
     this->x = this->next->get_x();
     this->y = this->next->get_y();
 }
 
+//head of snake moves in someone direction
 void Element::mov(const char& dir)
 {
     if(dir == 't')
@@ -234,6 +239,7 @@ Game::~Game()
     this->apple = nullptr;
 }
 
+//game start and loop and logic
 void Game::start()
 {
     this->apple->chpos(this->x, this->y);
