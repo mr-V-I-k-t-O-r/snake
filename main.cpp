@@ -9,11 +9,14 @@
 
 int main(){
 
+    const int WIDTH = 600;
+    const int HEIGTH = 600;
+
     glfwInit();
 
-    Window w;
-    Snake s;
-    Apple a;
+    Window w(WIDTH, HEIGTH);
+    Snake s(WIDTH, HEIGTH);
+    Apple a(WIDTH, HEIGTH);
     w.addSnake(s);
     w.addApple(a);
     

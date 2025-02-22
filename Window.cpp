@@ -13,8 +13,16 @@ private:
     GLFWwindow* w;
     Snake snake;
     Apple apple;
+
+    int row;
+    int col;
+    
 public:
-    Window(){
+    Window() = default;
+
+    Window(int mC, int mR){
+        col = mC;
+        row = mR;
     }
 
     void start(){
