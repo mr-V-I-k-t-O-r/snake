@@ -1,9 +1,18 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 
-project (snake)
+project(SnakeGame)
 
-set(SOURCE_EXE main.cpp Snake.cpp Window.cpp Apple.cpp)
+set(SOURCES
+    main.cpp
+    Apple.cpp
+    Snake.cpp
+    Window.cpp
+)
 
-add_executable(main ${SOURCE_EXE})
+add_executable(make ${SOURCES})
 
-add_compile_options(-L /usr/include/glad -lGL -lglw -lGLEW -lGLU -lglad)
+target_link_libraries(make
+    GL
+    glad
+    glfw
+)
