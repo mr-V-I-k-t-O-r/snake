@@ -6,8 +6,8 @@
  
 class Apple{
 private:
-    int maxRow;
-    int maxCol;
+    int height;
+    int width;
 
     int row;
     int col;
@@ -15,9 +15,9 @@ private:
 public:
     Apple() = default;
 
-    Apple(int mC, int mR){
-        maxCol = mC;
-        maxRow = mR;
+    Apple(int wi, int he){
+        width = wi;
+        height = he;
         srand(time(0));
         changePos();
     }

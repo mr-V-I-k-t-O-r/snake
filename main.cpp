@@ -1,4 +1,5 @@
 #include <thread>
+#include <iostream>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -24,7 +25,7 @@ int main(){
     windowThr.detach();
 
     while(s.getAlive() and w.getAlive()){
-
+        ;
     }
     return 0;
 }

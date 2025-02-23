@@ -7,32 +7,43 @@
 #include "Snake.cpp"
 #include "Apple.cpp"
 
-
 class Window{
 private:
     GLFWwindow* w;
     Snake snake;
     Apple apple;
 
-    int row;
-    int col;
-    
+    int height;
+    int width;
+
 public:
     Window() = default;
 
-    Window(int mC, int mR){
-        col = mC;
-        row = mR;
+    Window(int wi, int he){
+        width = wi;
+        height = he;
+
+        w = glfwCreateWindow(width, height, "Snake game", 0, 0);
+        glfwMakeContextCurrent(w);
+        gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
+        glViewport(0, 0, width, height);
     }
 
     void start(){
         while(!glfwWindowShouldClose(w)){
+
+            glfwPollEvents();    
+            glClearColor(.5f, .5f, .5f, 1.f);
+            glClear(GL_COLOR_BUFFER_BIT);
             glfwSwapBuffers(w);
+
         }
+        glfwTerminate();
     }
 
     bool getAlive(){
-        return glfwWindowShouldClose(w);
+        return !glfwWindowShouldClose(w);
     }
 
     void addSnake(Snake& s){

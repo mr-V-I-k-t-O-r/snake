@@ -4,11 +4,12 @@ class Snake{
 private:
     bool alive;
 
-    int maxRow;
-    int maxCol;
+    int height;
+    int width;
 
     int headRow;
     int headCol;
+
 public:
     bool getAlive(){
         return alive;
@@ -16,12 +17,12 @@ public:
 
     Snake() = default;
 
-    Snake(int mC, int mR){
-        maxCol = mC;
-        maxRow = mR;
+    Snake(int wi, int he){
+        width = wi;
+        height = he;
 
-        headRow = maxRow / 2;
-        headCol = maxCol / 2;
+        headRow = height / 2;
+        headCol = width / 2;
         alive = true;
     }
 

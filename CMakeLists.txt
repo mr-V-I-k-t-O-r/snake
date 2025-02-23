@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(SnakeGame)
+project(main)
 
 set(SOURCES
     main.cpp
@@ -9,9 +9,9 @@ set(SOURCES
     Window.cpp
 )
 
-add_executable(make ${SOURCES})
+add_executable(main ${SOURCES})
 
-target_link_libraries(make
+target_link_libraries(main
     GL
     glad
     glfw
