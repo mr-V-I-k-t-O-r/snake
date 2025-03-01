@@ -4,9 +4,9 @@ project(main)
 
 set(SOURCES
     main.cpp
-    Apple.cpp
-    Snake.cpp
-    Window.cpp
+    # Apple.cpp
+    # Snake.cpp
+    # Window.cpp
 )
 
 add_executable(main ${SOURCES})

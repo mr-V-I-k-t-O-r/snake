@@ -1,5 +1,8 @@
 #ifndef SNAKE
 #define SNAKE
+
+#include <string>
+
 class Snake{
 private:
     bool alive;
@@ -9,6 +12,8 @@ private:
 
     int headRow;
     int headCol;
+
+    std::string direction;
 
 public:
     bool getAlive(){
@@ -32,6 +37,10 @@ public:
 
     int getHeadCol(){
         return headCol;
+    }
+
+    void setDirection(std::string dir){
+        direction = dir;
     }
 };
 #endif
